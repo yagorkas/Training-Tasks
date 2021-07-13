@@ -9,7 +9,7 @@ public class PersonAddressImpl {
     public static int searchSurname(Person[] persons, String surname){
         int man = -1;
         for (int i = 0; i<persons.length; i++){
-            if (persons[i].getName().equals(surname)) {
+            if (persons[i].getSurname().equals(surname)) {
                 man = i;
                 break;
             }
@@ -22,7 +22,7 @@ public class PersonAddressImpl {
         int man = -1;
         int cnt = 0;
         for (int i = 0; i<persons.length; i++){
-            if (persons[i].getName().equals(surname)) {
+            if (persons[i].getSurname().equals(surname)) {
                 cnt++;
                 if (cnt == pos) {
                     man = i;
@@ -50,7 +50,7 @@ public class PersonAddressImpl {
         int man = -1;
         int cnt = 0;
         for (int i = 0; i<persons.length; i++){
-            if (persons[i].getName().equals(address)) {
+            if (persons[i].getAddress().equals(address)) {
                 cnt++;
                 if (cnt == pos) {
                     man = i;
@@ -59,17 +59,6 @@ public class PersonAddressImpl {
             }
         }
         return man;
-    }
-
-    //подсчет количества людей, родившихся между заданными датами
-    public static int countDates(Person[] persons, Calendar d1, Calendar d2){
-        int cnt =0;
-        for (int i = 0; i<persons.length; i++){
-            if (persons[i].getBirthdate().compareTo(d1)>0 && persons[i].getBirthdate().compareTo(d2)<0){
-                cnt++;
-            }
-        }
-        return cnt;
     }
 
     //вывод людей, родившихся между определенными датами, (если таких нет, то null)
@@ -127,7 +116,46 @@ public class PersonAddressImpl {
 
     }
     public static void main(String[] args){
-     
+        Person[] persons = new Person[4];
+
+        persons[0] = new Person("Иван","Иванов");
+        persons[0].setBirthdate(11,12,1980);
+        persons[0].setAddress("Ул. Арбат");
+
+        persons[1] = new Person("Евгений","Петров");
+        persons[1].setBirthdate(11,12,1978);
+        persons[1].setAddress("Ул. Смоленская");
+
+        persons[2] = new Person("Сергей","Иванов");
+        persons[2].setBirthdate(1,12,1988);
+        persons[2].setAddress("Ул. Арбат");
+
+        persons[3] = new Person("Алексей","Семенченко");
+        persons[3].setBirthdate(10,7,1985);
+        persons[3].setAddress("Ул. Смоленская");
+
+        System.out.println("проверка подпункта 1");
+        System.out.println(PersonAddressImpl.searchSurname(persons,"Петров"));
+        System.out.println(PersonAddressImpl.searchSurname(persons,"Иванов",2)+"\n");
+
+        System.out.println("проверка подпункта 2");
+        System.out.println(PersonAddressImpl.searchAddress(persons,"Ул. Смоленская"));
+        System.out.println(PersonAddressImpl.searchAddress(persons,"Ул. Смоленская",2)+"\n");
+
+        System.out.println("проверка подпункта 3");
+        Calendar d1 = new GregorianCalendar(1983,1,1);
+        Calendar d2 = new GregorianCalendar(2000,1,1);
+        PersonAddressImpl.searchDates(persons,d1,d2);
+        System.out.println();
+
+        System.out.println("проверка подпункта 4");
+        System.out.println(PersonAddressImpl.findYoung(persons));
+        System.out.println(PersonAddressImpl.findOld(persons)+"\n");
+
+
+        System.out.println("проверка подпункта 5");
+        PersonAddressImpl.sameAddress(persons);
+        System.out.println();
     }
 }
 
@@ -181,6 +209,7 @@ class Person{
     }
 
     public void setAddress(String address) {
+        this.address = new Address();
         this.address.setName(address);
     }
 
@@ -188,7 +217,7 @@ class Person{
     public String toString() {
         return name + ", " + surname + ", " +
                 birthdate.get(Calendar.DATE)+"."+(birthdate.get(Calendar.MONTH)+1)+"."+birthdate.get(Calendar.YEAR)+
-                ", " + address+ ";";
+                ", " + address.getName()+ ";";
     }
 }
 
