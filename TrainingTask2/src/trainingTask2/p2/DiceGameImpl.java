@@ -1,6 +1,6 @@
-package trainingTask1;
+package trainingTask2.p2;
 
-public class DiceGameImpl{
+public class DiceGameImpl {
     public static void main(String[] args){
         int rnd = 1;
         int N = 4;
@@ -17,12 +17,13 @@ public class DiceGameImpl{
     }
 }
 
-class DiceGame {
+class DiceGame implements Game{
     private int dicesNumber;
     private Player[] players;
     private boolean activeness = false;
 
     //метод для инициализации начала игры
+    @Override
     public void initNewGame(int N,int K){
         this.dicesNumber = K;
         players = new Player[N];
@@ -34,6 +35,7 @@ class DiceGame {
         activeness = true;
     }
 
+    @Override
     public boolean isActive(){
         return this.activeness;
     }
@@ -66,6 +68,7 @@ class DiceGame {
     }
 
     //метод - проведение раунда
+    @Override
     public void nextRound(){
         if (!this.isActive()){
             System.out.println("Игра не активна. Начните новую.");
@@ -97,7 +100,7 @@ class DiceGame {
             }
         }
     }
-
+    @Override
     public void checkTable(){
         System.out.println("Текущая ситуация по игре");
         System.out.println("Игрок|Количество побед");
